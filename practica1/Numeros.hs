@@ -35,9 +35,11 @@ promedio a b c = (div (a + b + c) 3)
 -- 4. Define la función gtaveragethree que recibe tres enteros y devuelve el --
 -- número que es mayor al promedio de los tres.                              --
 -------------------------------------------------------------------------------
-gtaveragethree :: Int -> Int -> Int -> Int
-gtaveragethree a b c
-	| a >= prom = a
-	| b >= prom = b
-	| otherwise = c
-	where prom = promedio a b c
+gtaveragethree :: Int -> Int -> Int -> [Int]
+gtaveragethree a b c = (mayores (a:(b:(c:[]))) (promedio a b c))
+
+mayores :: [Int] -> Int -> [Int]
+mayores [] _ = []
+mayores (x:xs) p
+	| x > p = x:(mayores xs p)
+	| otherwise = (mayores xs p)
