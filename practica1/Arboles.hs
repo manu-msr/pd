@@ -11,9 +11,9 @@
 module Arboles where
 
 data BTree a = Leaf a | BT (BTree a) (BTree a) deriving (Read, Show)
---------------------------------------------------------------------------------
+--------------------------------------------------------------------
 -- 1. Funciones de un arbol binario con informacion en las hojas: --
---------------------------------------------------------------------------------
+--------------------------------------------------------------------
 
 -- addleaf
 addleaf :: BTree a -> a -> BTree a
@@ -42,6 +42,6 @@ size (Leaf a) = 1
 size (BT l r) = 1 + (size l) + (size r)
 
 -- map
-mapBT :: BTree a -> (a -> b) -> BTree b
-mapBT (Leaf a) f = (Leaf (f a))
-mapBT (BT l r) f = (BT (mapBT l f) (mapBT r f))
+mapBT :: (a -> b) -> BTree a -> BTree b
+mapBT f (Leaf a) = (Leaf (f a))
+mapBT f (BT l r) = (BT (mapBT f l) (mapBT f r))

@@ -34,3 +34,14 @@ kprimeros (x:xs) n = [x] ++ (kprimeros xs (n-1))
 -- (a2, an)... ¿Cómo tratar el caso en la la lista dada tenga una longitud    --
 -- impar? Incluye esa observación en tu implementación.                       --
 --------------------------------------------------------------------------------
+
+-- Para el caso que es impar, simplemente no contamos ese caso. Esto se ve al decir
+-- que el resto de la lista es nulo o vacío.
+pares :: [a] -> [(a,a)]
+pares [] = []
+pares (x:xs) 
+	| null xs = []
+	| otherwise = (x, last xs):(pares (take ((length xs) - 1) xs))
+
+quitaUltimo :: [a] -> [a]
+quitaUltimo xs = take ((length xs) - 1) xs

@@ -22,3 +22,19 @@ permutaciones (x:xs) = [ys | zs <- permutaciones xs, ys <- (intercalar x zs)]
 inits :: [a] -> [[a]]
 inits [] = []
 inits (x:xs) = [x]:[x:ys | ys <- inits xs]
+
+--zip' :: [a] -> [b] -> [(a,b)]
+--zip' xs ys = [(a,b) | a <- xs, b <- ys
+
+zip2 xs ys = [(a,b) | i <- [0..(min (length xs) (length ys)-1)], a <- [enposicion xs i], b <- [enposicion ys i]]
+
+enposicion :: [a] -> Int -> a
+enposicion [] n = error "no"
+enposicion (x:xs) 0 = x
+enposicion (x:xs) n = enposicion xs (n-1)
+
+unzip2 :: [(a, b)] -> ([a], [b])
+unzip2 xs = ([fst y | y <- xs],[snd y | y <- xs])
+
+unzip'' [] = ([], [])
+unzip'' ((a,b):xs) = let z = unzip'' xs in ((a:fst z), (b:snd z))
