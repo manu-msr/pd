@@ -72,6 +72,27 @@ digitos x = digitos (x `div` 10)++[x `mod` 10]
 sdigito :: Int -> Int
 sdigito n = sum (digitos n)
 
+-- 5. Función que encuentra un número p talta que n = p + p', donde p' = iflip p
+iflip :: Int -> Int
+iflip n = (foldl (\ x y -> x * 10 + y) 0 (digits n 10))
+
+-- Funcion auxiliar que devuelve la lista de los digitos de un entero, dada una 
+-- base.
+digits :: Int -> Int -> [Int]
+digits 0 b = []
+digits x b
+   | x < b = [x]
+   | otherwise = m:(digits (div (x - m) b) b)
+   where m = (mod x b)
+
+-- Funcion que indica si existe para un natural, un entero que sumado con iflip
+-- del entero de como resultado el natural.
+existeIF :: Int -> Int
+existeIF n
+   | (length p) > 0 = (head p)
+   | otherwise = 0
+   where p = filter (\ x -> (x + (iflip x)) == n) [0 .. n]
+
 -- 6. Función que recibe una lista y regresa una lista de pares (k,x) donde k es
 -- el número de apariciones consecutivas de x en la lista.
 apars :: Eq a => [a] -> [(Int, a)]
