@@ -1,0 +1,402 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\begin_modules
+customHeadersFooters
+\end_modules
+\maintain_unincluded_children false
+\language spanish-mexico
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize 12
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date true
+\justification true
+\use_refstyle 1
+\boxbgcolor #d4dcde
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 2cm
+\topmargin 2cm
+\rightmargin 2cm
+\bottommargin 2cm
+\secnumdepth 3
+\tocdepth 2
+\paragraph_separation skip
+\defskip bigskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\bullet 0 0 7 -1
+\bullet 1 0 6 -1
+\bullet 2 0 8 -1
+\bullet 3 0 9 -1
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\noindent
+\align center
+
+\series bold
+\size large
+Programación Declarativa
+\begin_inset Newline newline
+\end_inset
+
+
+\shape italic
+\size default
+Proyecto (Propuesta)
+\begin_inset Newline newline
+\end_inset
+
+
+\series default
+\shape default
+Manuel Soto Romero
+\begin_inset Newline newline
+\end_inset
+
+manu@ciencias.unam.mx
+\end_layout
+
+\begin_layout Subsection*
+Introducción
+\end_layout
+
+\begin_layout Standard
+Una 
+\shape italic
+Máquina de Turing
+\shape default
+ es un autómata que, a pesar de su simplicidad, es capaz de realizar cualquier
+ cálculo que pueda ser realizado por una computadora y no existe otro modelo
+ con mayor poder computacional.
+\end_layout
+
+\begin_layout Standard
+Como autómata, la Máquina de Turing responde al siguiente modelo mecánico:
+\end_layout
+
+\begin_layout Enumerate
+Tiene una cinta 
+\shape italic
+infinita
+\shape default
+, pero limitada a la izquierda.
+ Sus celdas siempre están llenas: o bien por caracteres formando una secuencia
+ de entrada/salida o bien por el carácter especial blanco (
+\shape italic
+B
+\shape default
+).
+\end_layout
+
+\begin_layout Enumerate
+Tiene una 
+\shape italic
+cabeza
+\shape default
+ de lectura/escritura, que puede desplazarse tanto a la derecha como a la
+ izquierda, con el único límite de que no es posible moverse a la izquierda
+ de la primera celda.
+\end_layout
+
+\begin_layout Enumerate
+Su funcionamiento está basado en un paso elemental, 
+\shape italic
+transición
+\shape default
+, que se compone siempre de tres acciones:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Cambio de estado.
+\end_layout
+
+\begin_layout Enumerate
+Escritura de un símbolo en la celda de la cinta que examina, reemplazando
+ al que hubiera antes.
+\end_layout
+
+\begin_layout Enumerate
+Desplazamiento a izquierda (
+\shape italic
+L
+\shape default
+) o derecha (
+\shape italic
+R
+\shape default
+) una posición.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+En el 
+\shape italic
+control finito 
+\shape default
+se controla el funcionamiento: cuál es el estado actual de la máquina y
+ cuáles son las posibles transiciones.
+ El número de estados siempre es finito.
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align right
+\begin_inset Formula $\blacksquare$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Formalmente
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Shaded
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100line%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Paragraph*
+Definición.
+\end_layout
+
+\begin_layout Plain Layout
+Una 
+\shape italic
+Máquina de Turing
+\shape default
+ es una séptupla,
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Formula 
+\[
+M=\left(\Sigma,Q,\varGamma,f,q_{0},B,F\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+donde,
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\Sigma$
+\end_inset
+
+ es el alfabeto de entrada,
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $Q$
+\end_inset
+
+ es el conjunto de estados.
+ Es finito y no vacío,
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\varGamma$
+\end_inset
+
+ es el alfabeto de la cinta, 
+\begin_inset Formula $\Sigma\subseteq\varGamma-\left\{ B\right\} $
+\end_inset
+
+,
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Shaded
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100line%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Itemize
+\begin_inset Formula $f$
+\end_inset
+
+ es la función de transición,
+\end_layout
+
+\begin_deeper
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Formula 
+\[
+f:Q\times\varGamma\rightarrow Q\times\varGamma\times\left\{ L,R\right\} 
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+Partiendo de un estado y de un símbolo, indica la transición a otro estado,
+ el símbolo a escribir en la cinta y el movimiento del cabezal,
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+\begin_inset Formula $q_{0}$
+\end_inset
+
+ es el estado inicial, 
+\begin_inset Formula $q_{0}\in Q$
+\end_inset
+
+,
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $B$
+\end_inset
+
+ es un símbolo especial que se denomina 
+\shape italic
+BLANCO
+\shape default
+, 
+\begin_inset Formula $B\in\varGamma$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $F$
+\end_inset
+
+ es el conjunto de estados finales (aceptadores), 
+\begin_inset Formula $F\subseteq Q$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+Propuesta
+\end_layout
+
+\begin_layout Standard
+La propuesta del proyecto es implementar una Máquina de Turing, para determinar
+ si una palabra pertenece al lenguaje de la misma, utilizando Haskell como
+ lenguaje de programación.
+\end_layout
+
+\begin_layout Standard
+La principal función a implementar será 
+\family typewriter
+\size small
+acepta
+\family default
+\size default
+ que a partir de una Máquina de Turing y una palabra decide si la misma
+ pertenece al lenguaje de la máquina.
+ Para lograr el correcto funcionamiento de la función, se planean funciones
+ para indicar si se llega aun estado de aceptación o en caso contrario se
+ mueve la cinta y se cambia el estado con lo cual se volvería a ejecutar
+ la instrucción con la nueva función de transición.
+\end_layout
+
+\begin_layout Standard
+Se implementará alguna función para mover la cinta y alguna otra para determinar
+ si se llegó al estado de aceptación.
+\end_layout
+
+\begin_layout Standard
+Además para demostrar el correcto funcionamiento de las funciones, se diseñará
+ e implementará una Máquina de Turing que procese algún tipo de lenguaje.
+ Por ejemplo, una máquina que calcule la suma de dos números.
+\end_layout
+
+\end_body
+\end_document
