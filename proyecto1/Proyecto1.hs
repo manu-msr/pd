@@ -68,10 +68,24 @@ resaux (x:xs) b
 -- Función que identifica las letras involucradas en la ecuación (sin         --
 -- repeticiones)                                                              --
 --------------------------------------------------------------------------------
-
 identificaLetras :: String -> String
 identificaLetras [] = []
 identificaLetras (x:xs)
    | elem (toLower x) xs = identificaLetras xs
    | x == '+' || x == '=' = identificaLetras xs
    | otherwise = (toLower x):(identificaLetras xs)
+
+--------------------------------------------------------------------------------
+-- Función que encuentra las permutaciones posibles de una lista de la forma  --
+-- [1..n].                                                                    --
+--------------------------------------------------------------------------------
+permutacionesN :: Int -> [[Int]]
+permutacionesN n = permutaciones [1..n]
+
+permutaciones :: [a] -> [[a]]
+permutaciones [] = [[]]
+permutaciones (x:xs) = [ys | zs <- permutaciones xs, ys <- (intercalar x zs)]
+
+intercalar :: a -> [a] -> [[a]]
+intercalar x [] = [[x]]
+intercalar x (y:ys) = (x:y:ys):[(y:zs) | zs <- (intercalar x ys)]
