@@ -26,9 +26,9 @@ criptoaritmos =
          then -- No hay suficientes dígitos
             putStrLn ("No hay solución.")
          else
-            if (length x) == 9
+            if (length x) == 10
                then -- No es necesario encontrar las sublistas
-                  putStrLn (muestraLista 1 (verifica (permutaciones [1..9]) x (encuentraOp1 ecuacion) (encuentraOp2 ecuacion) (encuentraRes ecuacion)))
+                  putStrLn (muestraLista 1 (verifica (permutaciones [0..9]) x (encuentraOp1 ecuacion) (encuentraOp2 ecuacion) (encuentraRes ecuacion)))
                else
                   putStrLn (muestraLista 1 (verifica (permutaSubListas (sublistasN (length x) [0..9])) x (encuentraOp1 ecuacion) (encuentraOp2 ecuacion) (encuentraRes ecuacion)))
 

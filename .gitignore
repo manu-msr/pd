@@ -1,5 +1,8 @@
 *.lyx
+*.lyx~
 *.pdf
 *.tar.gz
 Clases.hs
+Clases.ml
 calendario.hs
+ejercicio_cartas.ml
