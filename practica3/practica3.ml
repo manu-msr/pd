@@ -58,3 +58,14 @@ let rec str_of_exp exp =
    | Prod (i,d) -> "(" ^ (str_of_exp i) ^ " * " ^ (str_of_exp d) ^ ")"
    | Div (i,d) -> "(" ^ (str_of_exp i) ^ " / " ^ (str_of_exp d) ^ ")"
    | Exp (b,p) -> "(" ^ (str_of_exp b) ^ "^" ^ (string_of_int p) ^ ")";; 
+
+(* Función que toma una expresión y devuelve su derivada. 
+   derive : exp -> exp *)
+let rec derive exp =
+   match exp with
+   | Const n -> (Const 0)
+   | X -> (Const 1)
+   | Sum (i,d) -> (Sum (derive i, derive d))
+   | Prod (i,d) -> (Sum ((Prod (derive i, d)), (Prod (i, derive d))))
+   | Div (i,d) -> (Div ((Prod ((Sum ((Prod (derive i,d)),(Prod (i,(derive d))))),(Const (-1)))),(Exp (d,2))))
+   | Exp (b,p) -> (Const 0);;
