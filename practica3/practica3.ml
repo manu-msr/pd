@@ -28,17 +28,47 @@ let rec combinaciones2 parnp =
    | (n, p) -> (combs n p 1.0);;
 
 (* Ejercicio 4 *)
+
+(* Función it_list que en realidad es foldl.
+   it_list : ('a -> 'b -> 'a) -> 'a -> 'b list -> 'a *)
 let rec it_list f e l =
    match l with
    | [] -> e
    | (a::l) -> it_list f (f e a) l
 
+(* Para probar la función maximal, usamos el tipo color y definimos dos 
+   funciones de comparación para colores. *)
+type color =
+   | Rojo
+   | Verde
+   | Azul
+
+(* El orden de mayor a menor en colores sería Rojo, Verde Azul. Esta función se
+   encarga de, dados dos colores, devolver el mayor.
+   mayor_color : color -> color -> color *)
+let mayor_color c1 c2 =
+   match c1 with
+   | Rojo -> Rojo
+   | Verde -> if c2 = Rojo then Rojo else Verde
+   | Azul -> c2
+
+(* El orden de menor a mayor en colores sería Azul, Verde Rojo. Esta función se
+   encarga de, dados dos colores, devolver el menor. 
+   menor_color : color -> color -> color *)
+let menor_color c1 c2 =
+   match c1 with
+   | Rojo -> c2
+   | Verde -> if c2 = Azul then Azul else Verde
+   | Azul -> Azul
+
+(* Función maximal, que llama a it_list con la función de comparación, (por 
+   ejemplo compara) y como caso base toma el primer elemento de la lista. *)
 let rec maximal p l =
    match l with
    | [] -> failwith "Lista vacía"
-   | (x::xs) -> (it_list p (p x (maximal p xs)) xs)
+   | (x::xs) -> it_list p x xs
 
-(* Ejercicio 4. *)
+(* Ejercicio 7. *)
 type exp =
    | Const of int
    | X
