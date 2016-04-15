@@ -6,26 +6,46 @@ open String;;
    Patlani Aguilar Luis Ángel
    Manuel Soto Romero *)
 
+
 (* Ejercicio 1 
    Función que calcula el número de combinaciones p en n.
-   combinaciones : (float * float) -> float *)
+   combinaciones : (int * int) -> int *)
+
+(* Función que hace el trabajo de combinaciones. Esta función opera con
+   flotantes pues la división entera no nos sirve. 
+   combinaciones : float * float -> float *)
 let rec combinaciones parnp =
    match parnp with
    |(n,0.0) -> 1.0
    |(n,p) -> (n/.p)*.(combinaciones (n -. 1.0,p -. 1.0))
 
-(* Función auxiliar que obtiene el número de combinaciones con Recursión de 
-   Cola, usa un acumulador. *)
-let rec combs n p acc =
-   if p = 0.0 then
-      acc
-   else
-      (combs (n -. 1.0) (p -. 1.0) (acc *. (n /. p)))
+(* Función que manda a llamar a combinaciones. Esta función recibe enteros
+   y manda a llamar a una función que trabaja con flotantes. Al final vuelve a
+   convertir el resultado a entero. 
+   combinaciones1: int * int -> int*)
+let combinaciones1 parnp = (int_of_float (combinaciones ((float_of_int (fst parnp)), (float_of_int (snd parnp)))))
 
-(* Versión 2 de la función que encuentra el número de combinaciones. *)
-let rec combinaciones2 parnp =
-   match parnp with
-   | (n, p) -> (combs n p 1.0);;
+(* Versión 2 de la función que encuentra el número de combinaciones. Al igual
+   que en la implementación 2. Tenemos que hacer conversiones. 
+   combinaciones2: int * int -> int *)
+let rec combinaciones2 parnp = 
+   let rec aux n p acc =
+   if (p = 0.0) then
+      (int_of_float acc)
+   else
+      (aux (n -. 1.0) (p -. 1.0) (acc *. (n /. p)))
+   in aux (float_of_int (fst parnp)) (float_of_int (snd parnp)) 1.0
+
+
+(* Ejercicio 3 *)
+
+(* Funcion que devuelve una lista de cadenas asociadas con su longitud.*)
+let rec longList ls = match ls with
+|[] -> []
+|s::xs -> let n = (length s) in
+   if (n < 1) then longList xs
+   else (s,n)::(longList xs)
+
 
 (* Ejercicio 4 *)
 
@@ -62,11 +82,45 @@ let menor_color c1 c2 =
    | Azul -> Azul
 
 (* Función maximal, que llama a it_list con la función de comparación, (por 
-   ejemplo compara) y como caso base toma el primer elemento de la lista. *)
+   ejemplo mayor_color y menor_color) y como caso base toma el primer elemento 
+   de la lista. La función de comparación debe ser binaria. 
+   maximal : ('a -> 'a -> 'a) -> 'a list -> 'a *)
 let rec maximal p l =
    match l with
    | [] -> failwith "Lista vacía"
    | (x::xs) -> it_list p x xs
+
+
+(* Ejercicio 5 *)
+
+(* Funcion que indica si dos palabras son anagramas.*)
+let anagrams a b = let rec toList s i n = if i<n then (s.[i])::(toList s (i+1) n) else []
+   and skip c s = match s with
+      |[] -> []
+      |x::xs -> if c=x then xs else x::(skip c xs)
+   and aux u v = if (List.length u)<>(List.length v) then false
+      else match u with
+      |[] -> true
+      |x::xs -> aux xs (skip x v)
+   in aux (toList a 0 (length a)) (toList b 0 (length b))
+
+
+(* Ejercicio 6 *)
+
+(* Construccion de arboles binarios.*)
+type 'a btree = Leaf of 'a | Node of ('a btree * 'a btree)
+(*6.1 Tipo de dato direccion para recorridos sobre arboles binarios.*)
+type direction = L | R
+(*6.2 Funcion que devuelve el arbol generado por una lista de direcciones.*)
+let rec camino l t = match t with
+   |(Leaf h) as hoja -> hoja
+   |(Node (left,rigth)) as tree -> match l with
+      |[] -> tree
+      |L::xs -> camino xs left
+      |R::xs -> camino xs rigth
+(*Construccion de un arbol auxiliar.*)
+let t = Node (Node (Leaf 3, Leaf 5), Node (Node (Leaf 2, Leaf 1), Leaf 6));;
+
 
 (* Ejercicio 7. *)
 type exp =
@@ -99,4 +153,3 @@ let rec derive exp =
    | Prod (i,d) -> (Sum ((Prod (derive i, d)), (Prod (i, derive d))))
    | Div (i,d) -> (Div ((Prod ((Sum ((Prod (derive i,d)),(Prod (i,(derive d))))),(Const (-1)))),(Exp (d,2))))
    | Exp (b,p) -> (Prod ((Exp ((Prod ((Const p),b),p-1)), (derive b))))
-   
