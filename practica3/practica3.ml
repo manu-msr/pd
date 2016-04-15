@@ -7,9 +7,7 @@ open String;;
    Manuel Soto Romero *)
 
 
-(* Ejercicio 1 
-   Función que calcula el número de combinaciones p en n.
-   combinaciones : (int * int) -> int *)
+(* Ejercicio 1 *)
 
 (* Función que hace el trabajo de combinaciones. Esta función opera con
    flotantes pues la división entera no nos sirve. 
@@ -46,6 +44,15 @@ let rec longList ls = match ls with
    if (n < 1) then longList xs
    else (s,n)::(longList xs)
 
+
+(* Ejercicio 3 *)
+
+(* Funcion que devuelve una lista de cadenas asociadas con su longitud.*)
+let rec longList ls = match ls with
+|[] -> []
+|s::xs -> let n = (length s) in
+	if (n < 1) then longList xs
+	else (s,n)::(longList xs)
 
 (* Ejercicio 4 *)
 
@@ -103,6 +110,14 @@ let anagrams a b = let rec toList s i n = if i<n then (s.[i])::(toList s (i+1) n
       |[] -> true
       |x::xs -> aux xs (skip x v)
    in aux (toList a 0 (length a)) (toList b 0 (length b))
+	and skip c s = match s with
+		|[] -> []
+		|x::xs -> if c=x then xs else x::(skip c xs)
+	and aux u v = if (List.length u)<>(List.length v) then false
+		else match u with
+		|[] -> true
+		|x::xs -> aux xs (skip x v)
+	in aux (toList a 0 (length a)) (toList b 0 (length b))
 
 
 (* Ejercicio 6 *)
@@ -118,6 +133,13 @@ let rec camino l t = match t with
       |[] -> tree
       |L::xs -> camino xs left
       |R::xs -> camino xs rigth
+(*Construccion de un arbol auxiliar.*)
+let t = Node (Node (Leaf 3, Leaf 5), Node (Node (Leaf 2, Leaf 1), Leaf 6));;
+	|(Leaf h) as hoja -> hoja
+	|(Node (left,rigth)) as tree -> match l with
+		|[] -> tree
+		|L::xs -> camino xs left
+		|R::xs -> camino xs rigth
 (*Construccion de un arbol auxiliar.*)
 let t = Node (Node (Leaf 3, Leaf 5), Node (Node (Leaf 2, Leaf 1), Leaf 6));;
 
