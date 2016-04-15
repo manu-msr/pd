@@ -92,22 +92,14 @@ let rec maximal p l =
 
 (* Funcion que indica si dos palabras son anagramas.*)
 let anagrams a b = let rec toList s i n = if i<n then (s.[i])::(toList s (i+1) n) else []
-   and skip c s = match s with
-      |[] -> []
-      |x::xs -> if c=x then xs else x::(skip c xs)
-   and aux u v = if (List.length u)<>(List.length v) then false
-      else match u with
-      |[] -> true
-      |x::xs -> aux xs (skip x v)
-   in aux (toList a 0 (length a)) (toList b 0 (length b))
-	and skip c s = match s with
-		|[] -> []
-		|x::xs -> if c=x then xs else x::(skip c xs)
-	and aux u v = if (List.length u)<>(List.length v) then false
-		else match u with
-		|[] -> true
-		|x::xs -> aux xs (skip x v)
-	in aux (toList a 0 (length a)) (toList b 0 (length b))
+  and skip c s = match s with
+     |[] -> []
+     |x::xs -> if c=x then xs else x::(skip c xs)
+  and aux u v = if (List.length u)<>(List.length v) then false
+     else match u with
+     |[] -> true
+     |x::xs -> aux xs (skip x v)
+  in aux (toList a 0 (length a)) (toList b 0 (length b))
 
 
 (* Ejercicio 6 *)
@@ -118,21 +110,13 @@ type 'a btree = Leaf of 'a | Node of ('a btree * 'a btree)
 type direction = L | R
 (*6.2 Funcion que devuelve el arbol generado por una lista de direcciones.*)
 let rec camino l t = match t with
-   |(Leaf h) as hoja -> hoja
-   |(Node (left,rigth)) as tree -> match l with
-      |[] -> tree
-      |L::xs -> camino xs left
-      |R::xs -> camino xs rigth
+  |(Leaf h) as hoja -> hoja
+  |(Node (left,rigth)) as tree -> match l with
+     |[] -> tree
+     |L::xs -> camino xs left
+     |R::xs -> camino xs rigth
 (*Construccion de un arbol auxiliar.*)
 let t = Node (Node (Leaf 3, Leaf 5), Node (Node (Leaf 2, Leaf 1), Leaf 6));;
-	|(Leaf h) as hoja -> hoja
-	|(Node (left,rigth)) as tree -> match l with
-		|[] -> tree
-		|L::xs -> camino xs left
-		|R::xs -> camino xs rigth
-(*Construccion de un arbol auxiliar.*)
-let t = Node (Node (Leaf 3, Leaf 5), Node (Node (Leaf 2, Leaf 1), Leaf 6));;
-
 
 (* Ejercicio 7. *)
 type exp =
