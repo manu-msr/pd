@@ -41,16 +41,6 @@ let rec combinaciones2 parnp =
 let rec longList ls = match ls with
 |[] -> []
 |s::xs -> let n = (length s) in
-   if (n < 1) then longList xs
-   else (s,n)::(longList xs)
-
-
-(* Ejercicio 3 *)
-
-(* Funcion que devuelve una lista de cadenas asociadas con su longitud.*)
-let rec longList ls = match ls with
-|[] -> []
-|s::xs -> let n = (length s) in
 	if (n < 1) then longList xs
 	else (s,n)::(longList xs)
 
