@@ -1,4 +1,5 @@
-open String;;
+# use "matriz.ml"
+open String
 
 (* Programación Declarativa
    Práctica 3 - OCaml 
@@ -149,3 +150,48 @@ let rec derive exp =
    | Prod (i,d) -> (Sum ((Prod (derive i, d)), (Prod (i, derive d))))
    | Div (i,d) -> (Div ((Prod ((Sum ((Prod (derive i,d)),(Prod (i,(derive d))))),(Const (-1)))),(Exp (d,2))))
    | Exp (b,p) -> (Prod ((Exp ((Prod ((Const p),b),p-1)), (derive b))))
+
+(* Ejercicio 8 *)
+
+(* Funcion que devuelve la matriz identidad de tamaño n.*)
+let id_m n = 
+	let matriz = Array.make n [||] in
+	for i = 0 to (n-1) do
+	  matriz.(i) <- Array.make n 0.;
+	  matriz.(i).(i) <- 1.;
+	done;
+	matriz
+(* Funcion que devuelve una lista con los elementos de una matriz m.*)
+let list_of_m m = 
+    let y = Matriz.rows m in
+    let x = Matriz.cols m in
+    let lista = ref [] in
+    for i = 0 to (y-1) do
+      for j = 0 to (x-1) do
+	     lista:=(!lista) @ [m.(i).(j)];
+      done;
+    done;
+    !lista
+(* Funcion que calcula la transpuesta de una matriz.*)
+let transp_m m = 
+    let y = Matriz.cols m in
+    let x = Matriz.rows m in
+    let transp = Matriz.make_m x y in
+    for i = 0 to (y-1) do
+      for j = 0 to (x-1) do
+	     transp.(i).(j) <- m.(j).(i);
+      done;
+    done;
+    transp
+(* Funcion que devuelve una lista con los elementos de una matriz m.*)
+let add_m a b =
+    let y = Matriz.rows a in
+    let x = Matriz.cols a in
+    let suma = Matriz.make_m x y in
+    if(y<>(Matriz.rows b))||(x<>(Matriz.cols b)) then () else
+    for i = 0 to (y-1) do
+      for j = 0 to (x-1) do
+	     suma.(i).(j) <- (a.(i).(j) +. b.(i).(j));
+      done;
+    done;
+    suma
