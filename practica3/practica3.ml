@@ -36,6 +36,15 @@ let rec combinaciones2 parnp =
    in aux (float_of_int (fst parnp)) (float_of_int (snd parnp)) 1.0
 
 
+(* Ejercicio 2 *)
+
+(* Función que regresa el primer elemento que cumple con la propiedad p *)
+let rec encuentra p l =
+   match l with
+   | [] -> None
+   | x::xs -> if (p x) then Some x else (encuentra p xs)
+
+
 (* Ejercicio 3 *)
 
 (* Funcion que devuelve una lista de cadenas asociadas con su longitud.*)
@@ -201,14 +210,14 @@ let add_m a b =
 (* Tipo de dato para representar fracciones. *)
 type racional = {numerador:int; denominador:int}
 
-(* Función que calcula el mínimo común múltiplo *)
-let mcm a b = ((abs (a * b)) / (mcd a b))
-
 (* Función que cacula el máximo común divisor *)
 let rec mcd a b =
    match (a mod b) with
    | 0 -> b
    | r -> (mcd b r)
+
+(* Función que calcula el mínimo común múltiplo *)
+let mcm a b = ((abs (a * b)) / (mcd a b))
 
 (* Función que calcula la suma de dos racionales *)
 let suma r1 r2 = {numerador=((r1.numerador*r2.denominador)+(r1.denominador*r2.numerador));denominador=(mcm (r1.denominador) (r2.denominador))}
