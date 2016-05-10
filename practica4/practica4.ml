@@ -19,12 +19,22 @@ let tabular f n =
 
 (* Ejercicio 7. *)
 
+(* Función auxiliar que obtiene el último elemento de una lista. *)
 let rec obtenCola l =
    match l with
    | [] -> failwith "La lista está vacía"
    | [x] -> x
    | x::xs -> obtenCola xs
 
+(* Función auxiliar que devuelve una lista sin el último elemento. *)
+let rec quitaUltimo l =
+   match l with
+   | [] -> []
+   | [x] -> []
+   | x::xs -> x::quitaUltimo xs
+
+(* Interfaz para trabajar con bicolas. Una bicola tiene que implementar las
+   siguientes funciones. *)
 module type DEQUE = 
 sig
    type 'a t
@@ -36,33 +46,43 @@ sig
    val dequeueTail : 'a t -> 'a
 end
 
+(* Modulo que implementa una bicola. Se implementan por medio de arreglos. *)
 module Deque:DEQUE =
 struct
-   type 'a t = 'a list ref
+   type 'a t = 'a array ref
 
-   let getHead xs =
-      match !xs with
-      | [] -> failwith "La cola está vacía"
-      | x::xs -> x
+   (* Función que obtiene la cabeza de la cola *)
+   let getHead bc =
+      try 
+         !bc.(0) 
+      with
+         Invalid_argument a -> failwith "La bicola está vacía"
 
-   let getTail xs =
-      match !xs with
-      | [] -> failwith "La cola está vacía"
-      | x::xs -> obtenCola xs
+   (* Función que obtiene el rabo de la cola *)
+   let getTail bc =
+      try
+         !bc.((Array.length !bc)-1)
+      with
+         Invalid_argument a -> failwith "La bicola está vacía"
 
-   let enqueueHead e c = 
-      c := e::!c
+   (* Función que agrega un elemento al inicio de la cola *)
+   let enqueueHead e bc = 
+      let a = Array.make ((Array.length !bc)+1) e in
+         for i = 1 to (Array.length a)-1 do
+            a.(i) <- !bc.(i)
+         done;
+         bc := a 
 
-   let enqueueTail e c = 
-      c := !c@[e]
+   let enqueueTail e bc = 
+      let a = Array.make ((Array.length !bc)+1) e in
+         for i = 0 to (Array.length !bc)-1 do
+            a.(i) <- !bc.(i)
+         done;
+         bc := a
 
-   let dequeueHead c = 
-      match !c with
-      | [] -> failwith "La cola está vacía"
-      | x::xs -> c := xs ; x
+   let dequeueHead bc = 
+      !bc.(0)
 
-   let dequeueTail c = 
-      match !c with
-      | [] -> failwith "La cola está vacía"
-      | x::xs -> obtenCola xs
+   let dequeueTail bc = 
+      !bc.(0)
 end
