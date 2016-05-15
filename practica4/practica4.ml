@@ -1,8 +1,21 @@
+open List;;
+
 (** Programación Declarativa
     Práctica 4
    ·Alfaro Mendoza Yoshua Ian
    ·Patlani Aguilar Luis Ángel 
    ·Soto Romero Manuel **)
+
+(* Ejercicio 1. *)
+
+(* Variable global auxiliar, usada por la funcion crack, para relacionar
+   los valores de sus parametros y modificar su valor de manera ordenada. *)
+let crack_v = ref [];;
+
+(* Función que emplea elementos imperativos con los que no se satisface que:
+   List.map crack (List.rev xs) ≡ List.rev (List.map crack xs), donde
+   crack : '_a -> '_a list *)
+let crack v = crack_v:= !crack_v @ [v]; !crack_v;;
 
 (* Ejercicio 2. *)
 
@@ -16,6 +29,35 @@ let tabular f n =
          arreglo.(i) <- f i
       done;
    arreglo
+
+(* Ejercicio 3.1 *)
+
+(* Función que toma dos streams y regresa un stream de pares, donde la
+   primer entrada de un par es elemento del primer stream y la segunda
+   del segundo stream.
+   zip_streams : 'a Stream.t -> 'b Stream.t -> ('a * 'b) Stream.t *)
+let zip_streams sa sb = 
+  let rec nextAB i = 
+  try 
+    Some (Stream.next sa, Stream.next sb)
+  with
+    Stream.Failure -> None 
+  in Stream.from nextAB;;
+
+(* Ejercicio 3.2 *)
+
+(* Función que toma dos streams y regresa un stream que alterna los
+   elementos de ambos streams haciendo uso del contador del Stream.
+   merge_streams : 'a Stream.t -> 'a Stream.t -> 'a Stream.t *)
+let merge_streams sa sb = 
+  let rec next i = 
+  try    
+   if (i mod 2)=0
+   then Some (Stream.next sa)
+   else Some (Stream.next sb)
+  with 
+    Stream.Failure -> None 
+  in Stream.from next;;
 
 (* Ejercicio 7. *)
 
