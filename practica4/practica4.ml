@@ -67,12 +67,56 @@ sig
    val add: int -> t -> unit
    val mem: int -> t -> bool
    val remove: int -> t -> unit
-   val size: t -> unit
+   val size: t -> int
    val height: t -> int
 end
 
 type node = E | N of t * int * t
 and t = node ref
+
+module BBTree:TREE =
+struct
+   type t = node ref
+
+   (* Función que crea un árbol vacío *)
+   let create () = ref E
+
+   let rec addaux n bb =
+      match bb with
+      | E -> N (ref E, n, ref E)
+      | N(i,e,d) -> 
+         if n < e
+         then
+            N (ref (addaux n !i), e, d)
+         else
+            N (i, e, ref(addaux n !d))
+
+   (* Función que agrega un elemento al árbol *)
+   let rec add n bb =
+      bb := addaux n !bb
+
+   let rec mem n bb =
+      match !bb with
+      | E -> false
+      | N(i,e,d) ->
+         if e = n
+         then
+            true
+         else
+            (mem n i) || (mem n d)
+
+   let remove n bb = ()
+   
+   let rec size bb =
+      match !bb with
+      | E -> 0
+      | N(i,e,d) -> 1 + (size i) + (size d)
+
+   let rec height bb =
+      match !bb with
+      | E -> -1
+      | N(i,e,d) -> 1 + (max (height i) (height d))
+end
 
 (* Ejercicio 7. *)
 
