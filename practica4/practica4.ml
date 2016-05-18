@@ -59,21 +59,21 @@ let merge_streams sa sb =
     Stream.Failure -> None 
   in Stream.from next;;
 
+(* Ejercicio 5. *)
+module type TREE =
+sig
+   type t
+   val create: unit -> t
+   val add: int -> t -> unit
+   val mem: int -> t -> bool
+   val remove: int -> t -> unit
+   val size: t -> unit
+   val height: t -> int
+end
+
+type node = E | N of t * int * t
+
 (* Ejercicio 7. *)
-
-(* Función auxiliar que obtiene el último elemento de una lista. *)
-let rec obtenCola l =
-   match l with
-   | [] -> failwith "La lista está vacía"
-   | [x] -> x
-   | x::xs -> obtenCola xs
-
-(* Función auxiliar que devuelve una lista sin el último elemento. *)
-let rec quitaUltimo l =
-   match l with
-   | [] -> []
-   | [x] -> []
-   | x::xs -> x::quitaUltimo xs
 
 (* Interfaz para trabajar con bicolas. Una bicola tiene que implementar las
    siguientes funciones. *)
