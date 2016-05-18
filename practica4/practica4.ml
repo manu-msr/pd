@@ -72,6 +72,7 @@ sig
 end
 
 type node = E | N of t * int * t
+and t = node ref
 
 (* Ejercicio 7. *)
 
