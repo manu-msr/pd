@@ -80,6 +80,7 @@ let rec quitaUltimo l =
 module type DEQUE = 
 sig
    type 'a t
+   val create : unit -> 'a t
    val getHead : 'a t -> 'a
    val getTail : 'a t -> 'a
    val enqueueHead : 'a -> 'a t -> unit
@@ -92,6 +93,9 @@ end
 module Deque:DEQUE =
 struct
    type 'a t = 'a array ref
+
+   (* Función que crea una bicola vacía *)
+   let create () = ref [| |]
 
    (* Función que obtiene la cabeza de la cola *)
    let getHead bc =
@@ -109,22 +113,51 @@ struct
 
    (* Función que agrega un elemento al inicio de la cola *)
    let enqueueHead e bc = 
-      let a = Array.make ((Array.length !bc)+1) e in
-         for i = 1 to (Array.length a)-1 do
-            a.(i) <- !bc.(i)
-         done;
-         bc := a 
+      if (Array.length !bc = 0) 
+      then 
+         bc := Array.make 1 e
+      else 
+         let a = Array.make ((Array.length !bc)+1) e in
+            for i = 0 to (Array.length !bc)-1 do
+               a.(i+1) <- !bc.(i)
+            done;
+            bc := a 
 
+   (* Función que agrega un elemento al final de la cola *)
    let enqueueTail e bc = 
-      let a = Array.make ((Array.length !bc)+1) e in
-         for i = 0 to (Array.length !bc)-1 do
-            a.(i) <- !bc.(i)
-         done;
-         bc := a
+      if (Array.length !bc = 0) 
+      then 
+         bc := Array.make 1 e
+      else 
+         let a = Array.make ((Array.length !bc)+1) e in
+            for i = 0 to (Array.length a)-2 do
+               a.(i) <- !bc.(i)
+            done;
+            bc := a 
 
-   let dequeueHead bc = 
-      !bc.(0)
+   (* Función que elimina el primer elemento de la cola y lo devuelve. *)
+   let dequeueHead bc =
+      if (Array.length !bc = 0)
+      then
+         failwith "La bicola está vacía"
+      else 
+         let a = Array.make ((Array.length !bc)-1) !bc.(0) in
+            let cabeza = !bc.(0) in
+               for i = 0 to (Array.length !bc)-2 do
+                  a.(i) <- !bc.(i+1)
+               done;
+               bc := a; cabeza
 
+   (* Función que elimina el último elemento de la colay lo devuelve. *)
    let dequeueTail bc = 
-      !bc.(0)
+      if (Array.length !bc = 0)
+      then
+         failwith "La bicola está vacía"
+      else
+         let a = Array.make ((Array.length !bc)-1) !bc.(0) in
+            let cola = !bc.((Array.length !bc)-1) in
+               for i = 0 to (Array.length a)-1 do
+                  a.(i) <- !bc.(i)
+               done;
+               bc := a; cola
 end
