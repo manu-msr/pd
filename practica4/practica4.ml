@@ -69,6 +69,8 @@ sig
    val remove: int -> t -> unit
    val size: t -> int
    val height: t -> int
+   val getRoot: t -> int
+   val bfs: t -> unit
 end
 
 type node = E | N of t * int * t
@@ -79,6 +81,17 @@ struct
    type t = node ref
 
    (* Función que crea un árbol vacío *)
+   let getRoot bb =
+      match !bb with
+      | E -> failwith "Árbol vacío"
+      | N(i,e,d) -> e
+
+   let rec bfs bb =
+      match !bb with
+      | E -> (print_string " ")
+      | N(i,e,d) -> print_int e ; let a = 1 in
+         bfs i; bfs d
+
    let create () = ref E
 
    let rec addaux n bb =
@@ -206,3 +219,37 @@ struct
                done;
                bc := a; cola
 end
+
+(* Ejercicio 8 *)
+
+(* Función recursiva que calcula el menor costo para multiplicar las matrices
+   con las dimensiones dadas, a partir de esquematizar el caso de 3 matrices,
+   es decir, el minimo entre la asociacion del lado izquierdo y del derecho.
+   La lista dims debe contener al menos 3 dimensiones.
+   val min_cost : int list -> int *)
+let rec min_cost dims = match dims with
+| a::b::c::d -> match d with
+      | [] -> a*b*c
+      | x::xs -> let rev = List.rev dims in let tail = List.tl rev in
+         let f = List.hd rev and e = List.hd tail
+         in min (a*b*f + (min_cost (b::c::d)))
+               (a*e*f + (min_cost (List.rev tail)))
+
+(*Tabla hash para almacenar los calculos de los costos minimos.*)
+let mc = Hashtbl.create 500
+
+(* Función memoizada para obtener el costo minimo para multiplicar
+   las matrices con las dimensiones dadas, siguiendo la estrategia
+   recursiva y guardando los casos simples que posiblemente sean
+   reutilizados, para que no sean calculados de nuevo.
+   La lista dims debe contener al menos 3 dimensiones.
+   val mem_cost : int list -> int *)
+let rec mem_cost dims = try Hashtbl.find mc dims
+   with Not_found -> match dims with
+      | a::b::c::d -> let r = match d with
+            | [] -> a*b*c
+            | x::xs -> let rev = List.rev dims in let tail = List.tl rev in
+               let f = List.hd rev and e = List.hd tail
+               in min (a*b*f + (mem_cost (b::c::d)))
+                     (a*e*f + (mem_cost (List.rev tail)))
+            in Hashtbl.add mc dims r;r
