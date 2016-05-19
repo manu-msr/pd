@@ -88,25 +88,21 @@ struct
 
    let rec bfs bb =
       match !bb with
-      | E -> (print_string " ")
+      | E -> (print_string "")
       | N(i,e,d) -> print_int e ; let a = 1 in
          bfs i; bfs d
 
    let create () = ref E
 
-   let rec addaux n bb =
-      match bb with
-      | E -> N (ref E, n, ref E)
-      | N(i,e,d) -> 
+   let rec add n bb =
+      match !bb with
+      | E -> bb := N (ref E, n, ref E)
+      | N (i,e,d) -> 
          if n < e
          then
-            N (ref (addaux n !i), e, d)
+            add n i
          else
-            N (i, e, ref(addaux n !d))
-
-   (* Función que agrega un elemento al árbol *)
-   let rec add n bb =
-      bb := addaux n !bb
+            add n d
 
    let rec mem n bb =
       match !bb with
@@ -118,8 +114,13 @@ struct
          else
             (mem n i) || (mem n d)
 
+   let vacio bb =
+      match !bb with
+      | E -> true
+      | N(i,e,d) -> false
+
    let remove n bb = ()
-   
+
    let rec size bb =
       match !bb with
       | E -> 0
