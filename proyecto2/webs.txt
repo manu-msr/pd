@@ -1,0 +1,10 @@
+{"url": "http://www.macetera-sorojchi.futbol", "id": 0, "links": [50706, 50837, 51021, 9045], "texto": ["encellar", "chiltota", "rabicano", "reacu\u00f1ar", "pegollo"]}
+{"url": "http://www.terriblez.golf", "id": 1, "links": [22826, 90269, 28456, 38332, 81619, 18901, 54432, 81765, 2551, 43787], "texto": ["gariofilea", "suplicatorio", "cosicosa", "pencazo", "garduja", "miserando"]}
+{"url": "http://www.hermanamiento-estonce.rent", "id": 2, "links": [64996, 6487, 21403, 7496, 64574, 1747], "texto": ["femar", "godo", "injerta", "chupacirios", "helor", "tanzano", "-araz", "tarajalludo"]}
+{"url": "http://www.pretenciosidad.tui", "id": 3, "links": [47615, 3387, 22301, 38575, 73004, 84377, 82413, 19727, 73072, 6742, 42448], "texto": ["plano", "magnetosfera", "caladura", "masacrar", "enjalbiego"]}
+{"url": "http://www.enfoscar.limo", "id": 4, "links": [12095, 82912, 39941, 59758, 66510], "texto": ["postliminio", "gurbionado", "ceiba", "baleadura", "parestesia", "torrear", "pitido", "bardana"]}
+{"url": "http://www.mampesada.cm", "id": 5, "links": [35022, 34977, 35164, 73198, 6211, 26857, 68864, 93709, 6625, 79504, 11977], "texto": ["agrilla", "tropo", "dichosamente", "interesable", "juerguearse", "estrellado", "hostiero", "bosque", "cosquillear"]}
+{"url": "http://www.zumba-pupitre.pm", "id": 6, "links": [51545, 16598, 18012, 72235, 91530, 76693, 12112, 5991, 26294, 57217, 16301], "texto": ["tentaci\u00f3n", "desmurar", "forzosamente", "desmigar", "potajera"]}
+{"url": "http://www.coronario.sap", "id": 7, "links": [21884, 64697, 87263, 82976, 18714, 1023, 65534, 44381, 55217, 6173, 16083], "texto": ["decimoctavo", "grapo", "ciente", "music hall", "recatonear", "zaguaro"]}
+{"url": "http://www.preludiar-aburrido.nhk", "id": 8, "links": [81220, 96356, 49590, 88446], "texto": ["contorcerse", "cariacuchillado", "precautorio", "zah\u00farda", "ch\u00e1chara", "jun\u00edpero", "palabrero", "pasamanar", "saltear"]}
+{"url": "http://www.grancilla.th", "id": 9, "links": [72047, 55315, 59425, 15409, 61950], "texto": ["entrecomillado", "aliviane", "abolir", "paciente", "rapante"]}
