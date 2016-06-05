@@ -121,6 +121,21 @@ let procesa_elemento e =
 
 (* Función que se encarga de leer el archivo y por medio de map generar el 
    record correspondiente a cada miembro del formato JSON. 
-   genera_paginas : string -> pagina list *)
+   genera_paginas : string -> pagina list*)
 let rec genera_paginas archivo =
     List.map (procesa_elemento) (leer_archivo archivo);;
+
+
+(* Función que construye una matriz de nxn y la inicializa con el valor v. *)
+let crea_matriz n v =
+    Array.make n (Array.make n (float_of_int v));;
+
+(* Función que construye la gráfica de adyacencias *)
+let construye_grafia paginas matriz =
+    for i = 0 to (List.length paginas) - 1 do
+        for j = 0 to (List.length (List.nth paginas i).links) - 1 do
+            let n = (List.length (List.nth paginas i).links) in
+                matriz.(i).((List.nth (List.nth paginas i).links) j) <- 1. /. (float_of_int n);
+        done;
+    done;
+    matriz;;
