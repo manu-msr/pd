@@ -128,7 +128,11 @@ let rec genera_paginas archivo =
 
 (* Función que construye una matriz de nxn y la inicializa con el valor v. *)
 let crea_matriz n v =
-    Array.make n (Array.make n (float_of_int v));;
+    let matriz = Array.make n [||] in
+        for i = 0 to n - 1 do
+            matriz.(i) <- Array.make n (float_of_int v);
+        done;
+    matriz;;
 
 (* Función que construye la gráfica de adyacencias *)
 let construye_grafia paginas matriz =
@@ -139,3 +143,13 @@ let construye_grafia paginas matriz =
         done;
     done;
     matriz;;
+
+(* Función que traspone una matriz. *)
+let traspuesta matriz n =
+    let traspuesta = crea_matriz n 0 in
+        for i = 0 to n - 1 do
+            for j = 0 to n -1 do
+                traspuesta.(i).(j) <- matriz.(j).(i);
+            done;
+        done;
+    traspuesta;;
