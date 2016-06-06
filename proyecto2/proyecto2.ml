@@ -1,3 +1,5 @@
+open Printf
+
 (* Programación Declarativa
    Proyecto 2 - PageRank
    Manuel Soto Romero <manu@ciencias.unam.mx> *)
@@ -11,7 +13,7 @@ type pagina = {
     id : int;
     links : int list;
     texto : string list;
-    pagerank : float;
+    mutable pagerank : float;
 };;
 
 (* Función que toma el nombre de un archivo y devuelve una lista de las líneas
@@ -126,7 +128,8 @@ let rec genera_paginas archivo =
     List.map (procesa_elemento) (leer_archivo archivo);;
 
 
-(* Función que construye una matriz de nxn y la inicializa con el valor v. *)
+(* Función que construye una matriz de nxn y la inicializa con el valor v. 
+   crea_matriz: int -> int -> float array array*)
 let crea_matriz n v =
     let matriz = Array.make n [||] in
         for i = 0 to n - 1 do
@@ -134,8 +137,9 @@ let crea_matriz n v =
         done;
     matriz;;
 
-(* Función que construye la gráfica de adyacencias *)
-let construye_grafia paginas matriz =
+(* Función que construye la gráfica de adyacencias.
+   construye_grafica : pagina list -> float array array -> float array array *)
+let construye_grafica paginas matriz =
     for i = 0 to (List.length paginas) - 1 do
         for j = 0 to (List.length (List.nth paginas i).links) - 1 do
             let n = (List.length (List.nth paginas i).links) in
@@ -144,7 +148,8 @@ let construye_grafia paginas matriz =
     done;
     matriz;;
 
-(* Función que traspone una matriz. *)
+(* Función que traspone una matriz de nxn. 
+   traspuesta : float array array -> int -> float array array*)
 let traspuesta matriz n =
     let traspuesta = crea_matriz n 0 in
         for i = 0 to n - 1 do
@@ -153,3 +158,117 @@ let traspuesta matriz n =
             done;
         done;
     traspuesta;;
+
+(* Función que realiza el producto por escalar de una matriz de nxn. 
+   producto_escalar : float array array -> float -> int -> float array array *)
+let producto_escalar matriz escalar n =
+    for i = 0 to n - 1 do
+        for j = 0 to n - 1 do
+            matriz.(i).(j) <- matriz.(i).(j) *. escalar;
+        done;
+    done;
+    matriz;;
+
+(* Función que realiza la suma de dos matrices de n x n.
+   suma : float array array -> float array array -> int -> float array array*)
+let suma a b n =
+    let suma = crea_matriz n 0 in
+        for i = 0 to n - 1 do
+            for j = 0 to n - 1 do
+                suma.(i).(j) <- a.(i).(i) +. b.(i).(j);
+            done;
+        done;
+    suma;;
+
+(* Función que multiplica un renĺón de la matriz por un vector.
+   producto : float array -> float list -> int -> float *)
+let producto vector1 vector2 n =
+    let suma = ref 0. in
+        for i = 0 to n-1 do
+            suma := !suma +. (vector1.(i) *. (List.nth vector2 i));
+        done;
+    !suma;;
+
+(* Función que calcula el nuevo valor de pagerank. 
+   nuevoPR : float array array -> float list -> int -> float list *)
+let nuevoPR g p n =
+    let pr = ref [] in
+        for i = 0 to (Array.length g) - 1 do
+            pr:=  !pr@[(producto g.(i) p n)];
+        done;
+    !pr;;
+
+(* Función para comparar dos listas. 
+   compareVs : 'a list -> 'a list -> bool*)
+let rec compareVs l1 l2 = 
+    match l1, l2 with
+    | [], [] -> true
+    | [], _
+    | _, [] -> false
+    | x::xs, y::ys -> x = y && compareVs xs ys
+
+(* Función que revisa los valores de PR hasta que se estabilizan. 
+   float array array -> float list -> int -> float list*)
+let rec revisa g p n =
+    let gp = nuevoPR g p n in
+        if compareVs gp p = false then gp else revisa g p n;;
+
+(* Función que implementa el algoritmo de PageRank 
+   page_rank : float array array -> float array array -> float list -> float -> 
+   float -> int -> float list *)
+let page_rank mt e p s t n =
+    let izquierdo = (producto_escalar mt s n) in
+        let derecho = (producto_escalar e (t /. (float_of_int n)) n) in
+            let g = (suma izquierdo derecho n) in
+                revisa g p n;;
+
+(* Función que prepara todos los valores del algoritmo. 
+   inicia : pagina list -> float list *)
+let inicia a =
+    let b = crea_matriz (List.length a) 0 in
+        let m = construye_grafica a b in
+            let mt = traspuesta m (List.length a) in
+                let e = crea_matriz (List.length a) 1 in
+                    let n = (float_of_int (List.length a)) in
+                        let l = ref [] in
+                            for i = 0 to (List.length a) - 1 do
+                                l := (1. /. n)::!l;
+                            done;
+                            page_rank mt e !l 0.85 0.15 (List.length a);;
+
+(* Función para comparar páginas a partir de su valor de pagerank. 
+   compara_pagina : pagina -> pagina -> bool*)
+let compara_pagina p1 p2 = 
+    if (p1.pagerank > p2.pagerank) then true else false;;
+
+(* QuickSort para ordenar los resultados. 
+   quicksort : ('a -> 'a -> bool) -> 'a list -> 'a list*)
+let rec quicksort gt = function
+  | [] -> []
+  | x::xs ->
+      let ys, zs = List.partition (gt x) xs in
+      (quicksort gt ys) @ (x :: (quicksort gt zs));;
+
+(* Función que ejecuta el algoritmo y regresa la lista de páginas con el valor
+   de PageRank actualizado.
+   ejecuta : string -> pagina list*)
+let ejecuta archivo =
+    let paginas = genera_paginas archivo in
+        let a = inicia paginas in
+            for i = 0 to (List.length paginas) -1 do
+                (List.nth paginas i).pagerank <- (List.nth a i)
+            done;
+    List.rev (quicksort (compara_pagina) paginas);;
+
+(* Función principal para interacción con el usuario. 
+   main : string -> string list *)
+let main archivo = 
+    let paginas = ejecuta archivo in
+        print_string "Introduce una palabra: ";
+        let palabra = read_line () in
+            let lista = ref [] in
+                for i = 0 to (List.length paginas) - 1 do
+                    if (List.mem palabra (List.nth paginas i).texto) then
+                        lista := (List.nth paginas i).url::!lista;
+                done;
+            !lista;;

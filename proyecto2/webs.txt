@@ -1,7 +1,7 @@
 {"url": "http://www.facebook.com", "id": 1, "links": [2, 3], "texto": ["amigos"]}
-{"url": "http://www.eldeforma.com", "id": 2, "links": [1], "texto": ["noticias", "like", "humor", "chismes"]}
-{"url": "http://www.9gag.com", "id": 3, "links": [2], "texto": ["humor", "gifs", "like", "nsfw"]}
-{"url": "http://www.twitter.com", "id": 4, "links": [2], "texto": ["humor", "gifs", "like", "nsfw"]}
-{"url": "http://www.hi5.com", "id": 5, "links": [2], "texto": ["humor", "gifs", "like", "nsfw"]}
-{"url": "http://www.tumblr.com", "id": 6, "links": [1], "texto": ["humor", "gifs", "like", "nsfw"]}
-{"url": "http://www.gmail.com", "id": 7, "links": [1], "texto": ["Hola"]}
+{"url": "http://www.twitter.com", "id": 2, "links": [1,4], "texto": ["noticias", "like", "humor", "chismes"]}
+{"url": "http://www.9gag.com", "id": 3, "links": [2,4], "texto": ["humor", "gifs", "like", "nsfw"]}
+{"url": "http://www.eldeforma.com", "id": 4, "links": [2], "texto": ["humor", "gifs", "like", "nsfw"]}
+{"url": "http://www.hi5.com", "id": 5, "links": [3,4], "texto": ["humor", "gifs", "like", "nsfw"]}
+{"url": "http://www.tumblr.com", "id": 6, "links": [1,4], "texto": ["humor", "gifs", "like", "nsfw"]}
+{"url": "http://www.gmail.com", "id": 7, "links": [6], "texto": ["Hola"]}
